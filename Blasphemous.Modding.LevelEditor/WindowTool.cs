@@ -1,6 +1,6 @@
 ﻿
 namespace Blasphemous.Modding.LevelEditor;
 
-public class WindowToolbox
+public class WindowTool
 {
 }

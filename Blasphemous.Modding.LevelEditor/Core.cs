@@ -9,15 +9,17 @@ internal static class Core
     static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(Editor = new Editor());
 
-        Grid = new(new Panel());
-        Info = new(new Label());
-        Toolbox = new();
+        Editor = new Editor();
+        Grid = Editor.CreateGridWindow();
+        Info = Editor.CreateInfoWindow();
+        Tool = Editor.CreateToolWindow();
+
+        Application.Run(Editor);
     }
 
     public static Editor Editor { get; private set; }
     public static WindowGrid Grid { get; private set; }
     public static WindowInfo Info { get; private set; }
-    public static WindowToolbox Toolbox { get; private set; }
+    public static WindowTool Tool { get; private set; }
 }

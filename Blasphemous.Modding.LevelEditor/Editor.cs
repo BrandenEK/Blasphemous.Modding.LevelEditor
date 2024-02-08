@@ -20,9 +20,6 @@ public partial class Editor : Form
         InitializeComponent();
         OnResize(new EventArgs());
 
-        //GridHandler = new(grid_contents);
-        //InfoHandler = new(info_text);
-
         foreach (var group in LoadObjects().GroupBy(x => x.sprite.layer).OrderBy(x => x.Key))
         {
             foreach (var obj in group.OrderBy(x => x.sprite.order))
@@ -35,6 +32,14 @@ public partial class Editor : Form
         //Core.Grid.GridObjects = _objectsInLevel;
         //Core.Info.Refresh();
     }
+
+    // Windows
+
+    public WindowInfo CreateInfoWindow() => new(info_text);
+
+    public WindowGrid CreateGridWindow() => new(grid_contents);
+
+    public WindowTool CreateToolWindow() => new();
 
     // Grid management
 
@@ -94,7 +99,7 @@ public partial class Editor : Form
         RescaleControls(this, ClientRectangle.Size);
     }
 
-    private void RescaleControls(Control c, Size total)
+    private static void RescaleControls(Control c, Size total)
     {
         if (c is IRescaleable rc)
             rc.Rescale(total);
@@ -105,7 +110,7 @@ public partial class Editor : Form
 
     private void OnClickInfo(object sender, EventArgs e)
     {
-        Core.Info.OnClickButton();
         Core.Grid.CenterGrid();
+        Core.Info.OnClickButton();
     }
 }
