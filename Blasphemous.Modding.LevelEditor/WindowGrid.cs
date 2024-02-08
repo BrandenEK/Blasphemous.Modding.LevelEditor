@@ -13,7 +13,6 @@ public class WindowGrid
 {
     private bool _clicked;
     private Point _lastPosition;
-    private Point _gridCenter;
 
     private Thing? _selectedObject;
 
@@ -91,7 +90,7 @@ public class WindowGrid
     public void CenterGrid()
     {
         Logger.Info("Centering grid");
-        SetGridPosition(_gridCenter);
+        SetGridPosition(CenterPoint);
     }
 
     private void SetGridPosition(Point position)
@@ -114,36 +113,49 @@ public class WindowGrid
     {
         DateTime startTime = DateTime.Now;
 
-        float top = int.MaxValue, left = int.MaxValue;
-        float right = int.MinValue, bottom = int.MinValue;
-
-        Vector origin = new(_gridContents.Width / 2, _gridContents.Height / 2, 0);
-
         foreach (var obj in _gridObjects)
         {
-            if (!obj.Sprite.DrawImage(g, origin, out Vector tl, out Vector br))
+            if (obj.Sprite.Image == null)
                 continue;
 
-            if (tl.Y < top)
-                top = tl.Y;
-            if (tl.X < left)
-                left = tl.X;
-            if (br.X > right)
-                right = br.X;
-            if (br.Y > bottom)
-                bottom = br.Y;
+            g.DrawImage(obj.Sprite.Image, ConvertToGridSpace(obj.Sprite.Points).AsArray());
         }
 
-        _selectedObject?.Sprite.DrawOutline(g, origin);
+        // Draw colliders
 
-        float x = left + (right - left) / 2f - _gridContents.Parent.Width / 2f;
-        float y = top + (bottom - top) / 2f - _gridContents.Parent.Height / 2f;
-        _gridCenter = new Point((int)-x, (int)-y);
+        //_selectedObject?.Sprite.DrawOutline(g, origin);
 
         DateTime endTime = DateTime.Now;
 
         Logger.Warning($"Redrawing grid in {(endTime - startTime).TotalMilliseconds} ms");
         Core.Info.Message = $"Draw count: {++drawCount}";
+    }
+
+    private Vector CenterPoint
+    {
+        get
+        {
+            float top = int.MaxValue, left = int.MaxValue;
+            float right = int.MinValue, bottom = int.MinValue;
+
+            foreach (var obj in _gridObjects)
+            {
+                FourPoint points = ConvertToGridSpace(obj.Sprite.Points);
+
+                if (points.TopLeft.Y < top)
+                    top = points.TopLeft.Y;
+                if (points.TopLeft.X < left)
+                    left = points.TopLeft.X;
+                if (points.BottomRight.X > right)
+                    right = points.BottomRight.X;
+                if (points.BottomRight.Y > bottom)
+                    bottom = points.BottomRight.Y;
+            }
+
+            float x = left + (right - left) / 2f - _gridContents.Parent.Width / 2f;
+            float y = top + (bottom - top) / 2f - _gridContents.Parent.Height / 2f;
+            return new Vector(-x, -y, 0);
+        }
     }
 
     private static int drawCount = 0;
@@ -158,7 +170,8 @@ public class WindowGrid
         //    _image.Invalidate(new Rectangle(fp.TopLeft, fp.Size + Vector.One));
         //}    
 
-        _selectedObject = SortObjectsByRenderOrder().FirstOrDefault(x => x.Sprite.Image != null && x.Sprite.GetImageRect(origin).IsPointInside(mouse));
+        // Need to apply origin and mirror
+        _selectedObject = SortObjectsByRenderOrder().FirstOrDefault(x => x.Sprite.Image != null && x.Sprite.Points.IsPointInside(mouse));
         Logger.Info($"Selecting new object: {_selectedObject?.Name ?? "None"}");
         //if (_selectedObject != null)
         //{
@@ -168,6 +181,14 @@ public class WindowGrid
 
         RefreshGrid();
         Core.Info.Refresh();
+    }
+
+    private FourPoint ConvertToGridSpace(FourPoint points)
+    {
+        Vector pixelMirror = new(1, -1, 1);
+        Vector origin = new(_gridContents.Width / 2, _gridContents.Height / 2, 0);
+
+        return points.Apply(v => v * pixelMirror + origin);
     }
 
     private IEnumerable<Thing> SortObjectsByRenderOrder() =>
