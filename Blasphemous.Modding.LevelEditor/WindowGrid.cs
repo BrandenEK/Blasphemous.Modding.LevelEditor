@@ -90,11 +90,14 @@ public class WindowGrid
 
     public void CenterGrid()
     {
+        Logger.Info("Centering grid");
         _gridContents.Location = _gridCenter;
     }
 
     private void DrawGrid(Graphics g)
     {
+        DateTime startTime = DateTime.Now;
+
         float top = int.MaxValue, left = int.MaxValue;
         float right = int.MinValue, bottom = int.MinValue;
 
@@ -121,6 +124,9 @@ public class WindowGrid
         float y = top + (bottom - top) / 2f - _gridContents.Parent.Height / 2f;
         _gridCenter = new Point((int)-x, (int)-y);
 
+        DateTime endTime = DateTime.Now;
+
+        Logger.Warning($"Redrawing grid in {(endTime - startTime).TotalMilliseconds} ms");
         Core.Info.Message = $"Draw count: {++drawCount}";
     }
 
@@ -137,7 +143,7 @@ public class WindowGrid
         //}    
 
         _selectedObject = SortObjectsByRenderOrder().FirstOrDefault(x => x.Sprite.Image != null && x.Sprite.GetImageRect(origin).IsPointInside(mouse));
-
+        Logger.Info($"Selecting new object: {_selectedObject?.Name ?? "None"}");
         //if (_selectedObject != null)
         //{
         //    FourPoint fp = _selectedObject.Sprite.GetImageRect(origin);

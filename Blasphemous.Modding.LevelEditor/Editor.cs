@@ -72,6 +72,7 @@ public partial class Editor : Form
     private IEnumerable<ThingImport> LoadObjects()
     {
         string path = Path.Combine(Environment.CurrentDirectory, "import", "levels", "D04Z01S01.json");
+        Logger.Warning($"Importing level data from {path}");
 
         if (!File.Exists(path))
             return Array.Empty<ThingImport>();
@@ -96,6 +97,7 @@ public partial class Editor : Form
     {
         base.OnResize(e);
 
+        Logger.Info($"Rescaling editor to {ClientRectangle.Size}");
         RescaleControls(this, ClientRectangle.Size);
     }
 
