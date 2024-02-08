@@ -48,7 +48,7 @@ public class WindowGrid
         CenterGrid();
     }
 
-    // Mouse clicking and scrolling
+    // Mouse events
 
     private void OnMouseDown(object? sender, MouseEventArgs e)
     {
@@ -79,6 +79,8 @@ public class WindowGrid
         Core.Info.Refresh();
     }
 
+    // Grid movement
+
     private Point ScrollGrid(Point cursor)
     {
         Point diff = new Point(cursor.X - _lastPosition.X, cursor.Y - _lastPosition.Y);
@@ -104,6 +106,8 @@ public class WindowGrid
         _gridContents.Location = new Point(x, y);
     }
 
+    // Grid drawing
+
     public void RefreshGrid()
     {
         _image.Invalidate();
@@ -113,6 +117,7 @@ public class WindowGrid
     {
         DateTime startTime = DateTime.Now;
 
+        // Draw all sprites
         foreach (var obj in _gridObjects)
         {
             if (obj.Sprite.Image == null)
@@ -121,9 +126,14 @@ public class WindowGrid
             g.DrawImage(obj.Sprite.Image, ConvertToGridSpace(obj.Sprite.Points).AsArray());
         }
 
-        // Draw colliders
+        // Draw all colliders
 
-        //_selectedObject?.Sprite.DrawOutline(g, origin);
+        // Draw outline on selected object
+        if (_selectedObject != null)
+        {
+            Pen p = new(Color.Cyan, 1f);
+            g.DrawRectangle(p, ConvertToGridSpace(_selectedObject.Sprite.Points).AsRectangle());
+        }
 
         DateTime endTime = DateTime.Now;
 
@@ -162,22 +172,10 @@ public class WindowGrid
 
     private void ClickOnGrid(Vector mouse)
     {
-        Vector origin = new(_gridContents.Width / 2, _gridContents.Height / 2, 0);
+        _selectedObject = SortObjectsByRenderOrder().FirstOrDefault(x =>
+            x.Sprite.Image != null && ConvertToGridSpace(x.Sprite.Points).IsPointInside(mouse));
 
-        //if (_selectedObject != null)
-        //{
-        //    FourPoint fp = _selectedObject.Sprite.GetImageRect(origin);
-        //    _image.Invalidate(new Rectangle(fp.TopLeft, fp.Size + Vector.One));
-        //}    
-
-        // Need to apply origin and mirror
-        _selectedObject = SortObjectsByRenderOrder().FirstOrDefault(x => x.Sprite.Image != null && x.Sprite.Points.IsPointInside(mouse));
         Logger.Info($"Selecting new object: {_selectedObject?.Name ?? "None"}");
-        //if (_selectedObject != null)
-        //{
-        //    FourPoint fp = _selectedObject.Sprite.GetImageRect(origin);
-        //    _image.Invalidate(new Rectangle(fp.TopLeft, fp.Size + Vector.One));
-        //}
 
         RefreshGrid();
         Core.Info.Refresh();

@@ -18,6 +18,8 @@ public class Sprite
 
     public Vector Pivot { get; set; } = new Vector(0.5f, 0.5f, 0);
 
+    private bool _needsUpdate = true;
+
     public Sprite(Thing owner)
     {
         _owner = owner;
@@ -27,29 +29,6 @@ public class Sprite
     {
 
     }
-
-    public void DrawOutline(Graphics g, Vector origin)
-    {
-        Pen p = new(Color.Cyan, 1f);
-
-        g.DrawRectangle(p, Points.AsRectangle());
-    }
-
-    private static float DegreeToRadians(float degrees) => degrees * MathF.PI / 180f;
-
-    private static Vector RotateAround(Vector point, Vector pivot, float degrees)
-    {
-        float radians = DegreeToRadians(degrees);
-        float sin = MathF.Sin(radians);
-        float cos = MathF.Cos(radians);
-
-        float x = cos * (point.X - pivot.X) - sin * (point.Y - pivot.Y) + pivot.X;
-        float y = sin * (point.X - pivot.X) + cos * (point.Y - pivot.Y) + pivot.Y;
-
-        return new Vector(x, y, 0);
-    }
-
-    private bool _needsUpdate = true;
 
     private FourPoint m_points;
     public FourPoint Points
@@ -98,5 +77,19 @@ public class Sprite
             _needsUpdate = false;
             return m_points = points;
         }
+    }
+
+    private static float DegreeToRadians(float degrees) => degrees * MathF.PI / 180f;
+
+    private static Vector RotateAround(Vector point, Vector pivot, float degrees)
+    {
+        float radians = DegreeToRadians(degrees);
+        float sin = MathF.Sin(radians);
+        float cos = MathF.Cos(radians);
+
+        float x = cos * (point.X - pivot.X) - sin * (point.Y - pivot.Y) + pivot.X;
+        float y = sin * (point.X - pivot.X) + cos * (point.Y - pivot.Y) + pivot.Y;
+
+        return new Vector(x, y, 0);
     }
 }
