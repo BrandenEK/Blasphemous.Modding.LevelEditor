@@ -13,9 +13,11 @@ internal static class Core
 
         Grid = new(new Panel());
         Info = new(new Label());
+        Toolbox = new();
     }
 
     public static Editor Editor { get; private set; }
     public static WindowGrid Grid { get; private set; }
     public static WindowInfo Info { get; private set; }
+    public static WindowToolbox Toolbox { get; private set; }
 }
