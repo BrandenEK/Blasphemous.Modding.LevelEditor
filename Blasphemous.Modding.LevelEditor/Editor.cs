@@ -31,6 +31,7 @@ public partial class Editor : Form
 
     // Json loading
 
+    // Move this to an importer that the grid has ?
     private void LoadLevelObjects()
     {
         List<Thing> objects = new();
@@ -43,8 +44,7 @@ public partial class Editor : Form
             }
         }
 
-        Core.Grid.GridObjects = objects;
-        Core.Grid.CenterGrid();
+        Core.Grid.LoadLevel(objects);
     }
 
     private IEnumerable<ThingImport> LoadObjects()

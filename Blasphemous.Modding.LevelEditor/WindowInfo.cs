@@ -14,11 +14,6 @@ public class WindowInfo
         _infoText = infoText;
     }
 
-    //public void OnClickButton()
-    //{
-    //    Refresh();
-    //}
-
     public void Refresh()
     {
         StringBuilder sb = new();
@@ -26,7 +21,7 @@ public class WindowInfo
         Point cursor = Core.Grid.CursorPosition;
         sb.AppendLine($"Cursor: {cursor.X}, {cursor.Y}");
 
-        int objects = Core.Grid.GridObjects.Count();
+        int objects = 0;
         sb.AppendLine($"Objects: {objects}");
 
         string selected = Core.Grid.SelectedObject;

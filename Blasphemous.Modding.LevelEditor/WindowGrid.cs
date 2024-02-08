@@ -11,13 +11,14 @@ namespace Blasphemous.Modding.LevelEditor;
 
 public class WindowGrid
 {
-    private readonly Panel _gridContents;
-
-    private bool _clicked = false;
-    private Point _lastPosition = new Point(0, 0);
+    private bool _clicked;
+    private Point _lastPosition;
+    private Point _gridCenter;
 
     private Thing? _selectedObject;
 
+    private readonly List<Thing> _gridObjects;
+    private readonly Panel _gridContents;
     private readonly GridImage _image;
 
     public Point CursorPosition => _lastPosition;
@@ -25,13 +26,28 @@ public class WindowGrid
 
     public WindowGrid(Panel gridContents)
     {
+        _gridObjects = new List<Thing>();
         _gridContents = gridContents;
         _image = new GridImage(DrawGrid, _gridContents.Size);
         AddImageToGrid(_image);
         CenterGrid();
     }
 
-    public IEnumerable<Thing>? GridObjects { get; set; } = new List<Thing>();
+    private void AddImageToGrid(GridImage image)
+    {
+        _gridContents.Controls.Add(image);
+        image.MouseDown += OnMouseDown;
+        image.MouseUp += OnMouseUp;
+        image.MouseMove += OnMouseMove;
+    }
+
+    public void LoadLevel(IEnumerable<Thing> objects)
+    {
+        _gridObjects.Clear();
+        _gridObjects.AddRange(objects);
+
+        CenterGrid();
+    }
 
     // Mouse clicking and scrolling
 
@@ -67,31 +83,31 @@ public class WindowGrid
     private Point ScrollGrid(Point cursor)
     {
         Point diff = new Point(cursor.X - _lastPosition.X, cursor.Y - _lastPosition.Y);
+        SetGridPosition(new Point(_gridContents.Location.X + diff.X, _gridContents.Location.Y + diff.Y));
 
-        int xmax = _gridContents.Width - _gridContents.Parent.Width;
-        int ymax = _gridContents.Height - _gridContents.Parent.Height;
-
-        int x = Math.Min(0, Math.Max(-xmax, _gridContents.Location.X + diff.X));
-        int y = Math.Min(0, Math.Max(-ymax, _gridContents.Location.Y + diff.Y));
-
-        _gridContents.Location = new Point(x, y);
         return new Point(cursor.X - diff.X, cursor.Y - diff.Y);
     }
-
-    public void AddImageToGrid(GridImage image)
-    {
-        _gridContents.Controls.Add(image);
-        image.MouseDown += OnMouseDown;
-        image.MouseUp += OnMouseUp;
-        image.MouseMove += OnMouseMove;
-    }
-
-    private Point _gridCenter;
 
     public void CenterGrid()
     {
         Logger.Info("Centering grid");
-        _gridContents.Location = _gridCenter;
+        SetGridPosition(_gridCenter);
+    }
+
+    private void SetGridPosition(Point position)
+    {
+        int xmax = _gridContents.Width - _gridContents.Parent.Width;
+        int ymax = _gridContents.Height - _gridContents.Parent.Height;
+
+        int x = Math.Min(0, Math.Max(-xmax, position.X));
+        int y = Math.Min(0, Math.Max(-ymax, position.Y));
+
+        _gridContents.Location = new Point(x, y);
+    }
+
+    public void RefreshGrid()
+    {
+        _image.Invalidate();
     }
 
     private void DrawGrid(Graphics g)
@@ -103,7 +119,7 @@ public class WindowGrid
 
         Vector origin = new(_gridContents.Width / 2, _gridContents.Height / 2, 0);
 
-        foreach (var obj in GridObjects)
+        foreach (var obj in _gridObjects)
         {
             if (!obj.Sprite.DrawImage(g, origin, out Vector tl, out Vector br))
                 continue;
@@ -150,10 +166,10 @@ public class WindowGrid
         //    _image.Invalidate(new Rectangle(fp.TopLeft, fp.Size + Vector.One));
         //}
 
-        _image.Invalidate();
+        RefreshGrid();
         Core.Info.Refresh();
     }
 
     private IEnumerable<Thing> SortObjectsByRenderOrder() =>
-        GridObjects.OrderByDescending(x => x.Sprite.SortingLayer * 1000000 + x.Sprite.SortingOrder);
+        _gridObjects.OrderByDescending(x => x.Sprite.SortingLayer * 1000000 + x.Sprite.SortingOrder);
 }
