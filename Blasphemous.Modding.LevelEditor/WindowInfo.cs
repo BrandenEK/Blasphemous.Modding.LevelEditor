@@ -14,10 +14,10 @@ public class WindowInfo
         _infoText = infoText;
     }
 
-    public void OnClickButton()
-    {
-        Refresh();
-    }
+    //public void OnClickButton()
+    //{
+    //    Refresh();
+    //}
 
     public void Refresh()
     {

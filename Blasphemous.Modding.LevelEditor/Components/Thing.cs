@@ -1,4 +1,8 @@
-﻿
+﻿using Blasphemous.Modding.LevelEditor.Framework;
+using System;
+using System.Drawing;
+using System.IO;
+
 namespace Blasphemous.Modding.LevelEditor.Components;
 
 public class Thing
@@ -16,5 +20,35 @@ public class Thing
         Transform = new Transform(this);
         Sprite = new Sprite(this);
         Collider = new Collider(this);
+    }
+
+    public static Thing Import(ThingImport import)
+    {
+        Thing obj = new();
+        obj.Name = import.name;
+
+        obj.Transform.Position = import.transform.position;
+        obj.Transform.Rotation = import.transform.rotation;
+        obj.Transform.Scale = import.transform.scale;
+
+        obj.Sprite.Image = LoadImage(import.sprite.image);
+        obj.Sprite.SortingLayer = import.sprite.layer;
+        obj.Sprite.SortingOrder = import.sprite.order;
+        obj.Sprite.HorizontalFlip = import.sprite.flip;
+        obj.Sprite.Pivot = import.sprite.pivot;
+
+        // Collider
+
+        return obj;
+    }
+
+    private static Bitmap? LoadImage(string name)
+    {
+        string path = Path.Combine(Environment.CurrentDirectory, "import", "textures", name + ".png");
+
+        if (!File.Exists(path))
+            return null;
+
+        return new Bitmap(path);
     }
 }
