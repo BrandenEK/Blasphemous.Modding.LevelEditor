@@ -4,9 +4,9 @@ using System.Drawing;
 
 namespace Blasphemous.Modding.LevelEditor.Components;
 
-public class Sprite
+public class Sprite : Component
 {
-    private readonly Thing _owner;
+    public Sprite(Thing owner) : base(owner) { }
 
     public Bitmap? Image { get; set; } = null;
 
@@ -19,11 +19,6 @@ public class Sprite
     public Vector Pivot { get; set; } = new Vector(0.5f, 0.5f, 0);
 
     private bool _needsUpdate = true;
-
-    public Sprite(Thing owner)
-    {
-        _owner = owner;
-    }
 
     public void Refresh()
     {
@@ -38,9 +33,9 @@ public class Sprite
             if (!_needsUpdate)
                 return m_points;
 
-            Vector position = _owner.Transform.Position;
-            Vector rotation = _owner.Transform.Rotation;
-            Vector scale = _owner.Transform.Scale;
+            Vector position = Owner.Transform.Position;
+            Vector rotation = Owner.Transform.Rotation;
+            Vector scale = Owner.Transform.Scale;
 
             // Get center and size in pixels
             Vector pixelCenter = position * Editor.PIXELS_PER_UNIT;

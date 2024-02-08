@@ -2,9 +2,9 @@
 
 namespace Blasphemous.Modding.LevelEditor.Components;
 
-public class Transform
+public class Transform : Component
 {
-    private readonly Thing _owner;
+    public Transform(Thing owner) : base(owner) { }
 
     public Vector Position { get; set; } = Vector.Zero;
 
@@ -12,14 +12,9 @@ public class Transform
 
     public Vector Scale { get; set; } = Vector.One;
 
-    public Transform(Thing owner)
-    {
-        _owner = owner;
-    }
-
     public void Refresh()
     {
-        _owner.Sprite.Refresh();
-        _owner.Collider.Refresh();
+        Owner.Sprite.Refresh();
+        Owner.Collider.Refresh();
     }
 }
