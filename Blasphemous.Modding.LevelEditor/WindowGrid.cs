@@ -51,7 +51,7 @@ public class WindowGrid
     public void LoadLevel(IEnumerable<Thing> objects)
     {
         _gridObjects.Clear();
-        _gridObjects.AddRange(objects);
+        _gridObjects.AddRange(objects.SortBackToFront()); // Also need to sort when adding objects
 
         CenterGrid();
     }
@@ -214,7 +214,7 @@ public class WindowGrid
 
     private void ClickOnGrid(Vector mouse)
     {
-        _selectedObject = SortObjectsByRenderOrder().FirstOrDefault(x =>
+        _selectedObject = _gridObjects.LastOrDefault(x =>
             x.Sprite.Image != null && ConvertToGridSpace(x.Sprite.Points).IsPointInside(mouse));
 
         Logger.Info($"Selecting new object: {_selectedObject?.Name ?? "None"}");
@@ -238,7 +238,4 @@ public class WindowGrid
 
         return vector * pixelMirror - origin;
     }
-
-    private IEnumerable<Thing> SortObjectsByRenderOrder() =>
-        _gridObjects.OrderByDescending(x => x.Sprite.SortingLayer * 1000000 + x.Sprite.SortingOrder);
 }
