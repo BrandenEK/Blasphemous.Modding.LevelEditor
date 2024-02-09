@@ -15,6 +15,8 @@ public partial class Editor : Form
 {
     public const int PIXELS_PER_UNIT = 32;
 
+    public const string SCENE = "D04Z01S01";
+
     public Editor()
     {
         InitializeComponent();
@@ -25,7 +27,7 @@ public partial class Editor : Form
 
     public WindowInfo CreateInfoWindow() => new(info_text);
 
-    public WindowGrid CreateGridWindow() => new(grid_contents);
+    public WindowGrid CreateGridWindow() => new(grid_contents, info_text);
 
     public WindowTool CreateToolWindow() => new();
 
@@ -49,7 +51,7 @@ public partial class Editor : Form
 
     private IEnumerable<ThingImport> LoadObjects()
     {
-        string path = Path.Combine(Environment.CurrentDirectory, "import", "levels", "D04Z01S01.json");
+        string path = Path.Combine(Environment.CurrentDirectory, "import", "levels", SCENE + ".json");
         Logger.Warning($"Importing level data from {path}");
 
         if (!File.Exists(path))

@@ -75,10 +75,34 @@ public readonly record struct Vector
         new(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
 
     /// <summary>
-    /// Scales the vector
+    /// Divides the elements of two vectors
     /// </summary>
-    public static Vector operator *(Vector v, float scalar)
-        => new(v.X * scalar, v.Y * scalar, v.Z * scalar);
+    public static Vector operator /(Vector v1, Vector v2) =>
+        new(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z);
+
+    /// <summary>
+    /// Adds the elements of a vector by a number
+    /// </summary>
+    public static Vector operator +(Vector v, float num)
+        => new(v.X + num, v.Y + num, v.Z + num);
+
+    /// <summary>
+    /// Subtracts the elements of a vector by a number
+    /// </summary>
+    public static Vector operator -(Vector v, float num)
+        => new(v.X - num, v.Y - num, v.Z - num);
+
+    /// <summary>
+    /// Multiplies the elements of a vector by a number
+    /// </summary>
+    public static Vector operator *(Vector v, float num)
+        => new(v.X * num, v.Y * num, v.Z * num);
+
+    /// <summary>
+    /// Divides the elements of a vector by a number
+    /// </summary>
+    public static Vector operator /(Vector v, float num)
+        => new(v.X / num, v.Y / num, v.Z / num);
 
     /// <summary>
     /// Converts to a Point

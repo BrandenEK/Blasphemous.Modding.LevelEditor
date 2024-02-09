@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Blasphemous.Modding.LevelEditor;
@@ -19,16 +20,22 @@ public class WindowGrid
     private readonly List<Thing> _gridObjects;
     private readonly Panel _gridContents;
     private readonly GridImage _image;
+    //private readonly GridImage _text;
+    private readonly Label _info;
 
     public Point CursorPosition => _lastPosition;
     public string SelectedObject => _selectedObject?.Name ?? "None";
 
-    public WindowGrid(Panel gridContents)
+    public WindowGrid(Panel gridContents, Label info)
     {
         _gridObjects = new List<Thing>();
         _gridContents = gridContents;
         _image = new GridImage(DrawGrid, _gridContents.Size);
         AddImageToGrid(_image);
+        _info = info;
+        //_text = new GridImage(DrawText, new Size(400, 150));
+        //Core.Editor.Controls.Add(_text);
+        //Core.Editor.Controls.SetChildIndex(_text, 0);
         CenterGrid();
     }
 
@@ -46,6 +53,41 @@ public class WindowGrid
         _gridObjects.AddRange(objects);
 
         CenterGrid();
+    }
+
+    // Text drawing
+
+    private void DrawText(Graphics g)
+    {
+        Font font = new Font(FontFamily.GenericSerif, 16);
+        Brush brush = new SolidBrush(Color.White);
+
+        //TextRenderer.DrawText(g, sb.ToString(), font, new Point(5, 5), Color.White);
+        //var size = g.MeasureString(sb.ToString(), font);
+        //_text.Size = new Size((int)size.Width, (int)size.Height);
+        //g.Clear(Color.Transparent);
+        //g.DrawString(sb.ToString(), font, Brushes.White, new PointF(5, 5));// new PointF(-_gridContents.Location.X, -_gridContents.Location.Y));
+    }
+
+    private void RefreshText()
+    {
+        //_text.Invalidate();
+        _info.Text = BuildInfoText();
+    }
+
+    private string BuildInfoText()
+    {
+        StringBuilder sb = new();
+        sb.AppendLine($"Scene: {Editor.SCENE}");
+        sb.AppendLine($"Objects: {_gridObjects.Count}");
+        sb.AppendLine($"Selected: {_selectedObject?.Name ?? "None"}");
+
+        Vector cursor = new Vector(_lastPosition.X, _lastPosition.Y, 0);
+        cursor = ConvertToWorldSpace(cursor) / Editor.PIXELS_PER_UNIT;
+
+        sb.AppendLine($"Cursor: ({MathF.Round(cursor.X, 2)}, {MathF.Round(cursor.Y, 2)})");
+
+        return sb.ToString();
     }
 
     // Mouse events
@@ -76,7 +118,7 @@ public class WindowGrid
             _lastPosition = new Point(e.X, e.Y);
         }
 
-        Core.Info.Refresh();
+        RefreshText();
     }
 
     // Grid movement
@@ -138,7 +180,6 @@ public class WindowGrid
         DateTime endTime = DateTime.Now;
 
         Logger.Warning($"Redrawing grid in {(endTime - startTime).TotalMilliseconds} ms");
-        Core.Info.Message = $"Draw count: {++drawCount}";
     }
 
     private Vector CenterPoint
@@ -178,7 +219,7 @@ public class WindowGrid
         Logger.Info($"Selecting new object: {_selectedObject?.Name ?? "None"}");
 
         RefreshGrid();
-        Core.Info.Refresh();
+        RefreshText();
     }
 
     private FourPoint ConvertToGridSpace(FourPoint points)
@@ -187,6 +228,14 @@ public class WindowGrid
         Vector origin = new(_gridContents.Width / 2, _gridContents.Height / 2, 0);
 
         return points.Apply(v => v * pixelMirror + origin);
+    }
+
+    private Vector ConvertToWorldSpace(Vector vector)
+    {
+        Vector pixelMirror = new(1, -1, 1);
+        Vector origin = new(_gridContents.Width / 2, _gridContents.Height / 2, 0);
+
+        return vector * pixelMirror - origin;
     }
 
     private IEnumerable<Thing> SortObjectsByRenderOrder() =>

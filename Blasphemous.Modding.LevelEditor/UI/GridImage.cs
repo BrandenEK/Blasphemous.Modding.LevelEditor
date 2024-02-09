@@ -12,6 +12,7 @@ public class GridImage : Panel
     {
         _draw = draw;
         Size = size;
+        //DoubleBuffered = true;
     }
 
     protected override CreateParams CreateParams
