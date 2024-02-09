@@ -95,7 +95,7 @@ partial class Editor
         // info_load_btn
         // 
         info_load_btn.Anchor = AnchorStyles.Bottom;
-        info_load_btn.Location = new Point(39, 356);
+        info_load_btn.Location = new Point(0, 331);
         info_load_btn.Name = "info_load_btn";
         info_load_btn.Size = new Size(75, 23);
         info_load_btn.TabIndex = 2;
@@ -106,7 +106,7 @@ partial class Editor
         // info_center_btn
         // 
         info_center_btn.Anchor = AnchorStyles.Bottom;
-        info_center_btn.Location = new Point(39, 385);
+        info_center_btn.Location = new Point(82, 331);
         info_center_btn.Name = "info_center_btn";
         info_center_btn.Size = new Size(75, 23);
         info_center_btn.TabIndex = 1;
@@ -116,12 +116,12 @@ partial class Editor
         // 
         // info_text
         // 
-        info_text.Dock = DockStyle.Fill;
+        info_text.Anchor = AnchorStyles.Bottom;
         info_text.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
         info_text.ForeColor = Color.DimGray;
-        info_text.Location = new Point(0, 0);
+        info_text.Location = new Point(-75, 380);
         info_text.Name = "info_text";
-        info_text.Size = new Size(160, 500);
+        info_text.Size = new Size(300, 120);
         info_text.TabIndex = 0;
         info_text.Text = "Info...";
         info_text.TextAlign = ContentAlignment.MiddleCenter;

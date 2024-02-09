@@ -37,6 +37,7 @@ public class WindowGrid
         //Core.Editor.Controls.Add(_text);
         //Core.Editor.Controls.SetChildIndex(_text, 0);
         CenterGrid();
+        RefreshText();
     }
 
     private void AddImageToGrid(GridImage image)
