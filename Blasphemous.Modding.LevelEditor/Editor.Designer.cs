@@ -62,7 +62,7 @@ partial class Editor
         // 
         // grid_contents
         // 
-        grid_contents.BackColor = Color.Magenta;
+        grid_contents.BackColor = Color.SteelBlue;
         grid_contents.Location = new Point(0, 0);
         grid_contents.Name = "grid_contents";
         grid_contents.Size = new Size(50000, 50000);

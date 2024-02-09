@@ -61,16 +61,6 @@ public partial class Editor : Form
         return JsonConvert.DeserializeObject<ThingImport[]>(json) ?? Array.Empty<ThingImport>();
     }
 
-    //private Bitmap? LoadImage(string name)
-    //{
-    //    string path = Path.Combine(Environment.CurrentDirectory, "import", "textures", name + ".png");
-
-    //    if (!File.Exists(path))
-    //        return null;
-
-    //    return new Bitmap(path);
-    //}
-
     // Rescaling
 
     protected override void OnResize(EventArgs e)

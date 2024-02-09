@@ -1,7 +1,5 @@
 ﻿using Blasphemous.Modding.LevelEditor.Framework;
-using System;
-using System.Drawing;
-using System.IO;
+using Blasphemous.Modding.LevelEditor.Import;
 
 namespace Blasphemous.Modding.LevelEditor.Components;
 
@@ -31,7 +29,7 @@ public class Thing
         obj.Transform.Rotation = import.transform.rotation;
         obj.Transform.Scale = import.transform.scale;
 
-        obj.Sprite.Image = LoadImage(import.sprite.image);
+        obj.Sprite.Image = TextureImporter.Load(import.sprite.image);
         obj.Sprite.SortingLayer = import.sprite.layer;
         obj.Sprite.SortingOrder = import.sprite.order;
         obj.Sprite.HorizontalFlip = import.sprite.flip;
@@ -40,15 +38,5 @@ public class Thing
         // Collider
 
         return obj;
-    }
-
-    private static Bitmap? LoadImage(string name)
-    {
-        string path = Path.Combine(Environment.CurrentDirectory, "import", "textures", name + ".png");
-
-        if (!File.Exists(path))
-            return null;
-
-        return new Bitmap(path);
     }
 }
