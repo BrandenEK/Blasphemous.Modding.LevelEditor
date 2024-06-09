@@ -19,6 +19,7 @@ partial class Editor
 
     private void InitializeComponent()
     {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
         grid_border = new ScaleablePanel();
         grid_section = new BorderedPanel();
         grid_contents = new Panel();
@@ -168,6 +169,7 @@ partial class Editor
         Controls.Add(tool_border);
         Controls.Add(info_border);
         Controls.Add(grid_border);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         MinimumSize = new Size(800, 500);
         Name = "Editor";
         Text = "Blasphemous Level Editor";
