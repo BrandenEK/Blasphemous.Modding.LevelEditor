@@ -79,12 +79,12 @@ public class WindowGrid
     private string BuildInfoText()
     {
         StringBuilder sb = new();
-        sb.AppendLine($"Scene: {Editor.SCENE}");
+        sb.AppendLine($"Scene: {MainForm.SCENE}");
         sb.AppendLine($"Objects: {_gridObjects.Count}");
         sb.AppendLine($"Selected: {_selectedObject?.Name ?? "None"}");
 
         Vector cursor = new Vector(_lastPosition.X, _lastPosition.Y, 0);
-        cursor = ConvertToWorldSpace(cursor) / Editor.PIXELS_PER_UNIT;
+        cursor = ConvertToWorldSpace(cursor) / MainForm.PIXELS_PER_UNIT;
 
         sb.AppendLine($"Cursor: ({MathF.Round(cursor.X, 2)}, {MathF.Round(cursor.Y, 2)})");
 

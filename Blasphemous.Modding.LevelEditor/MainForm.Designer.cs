@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Blasphemous.Modding.LevelEditor;
 
-partial class Editor
+partial class MainForm
 {
     private System.ComponentModel.IContainer components = null;
 
@@ -19,7 +19,7 @@ partial class Editor
 
     private void InitializeComponent()
     {
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         grid_border = new ScaleablePanel();
         grid_section = new BorderedPanel();
         grid_contents = new Panel();
@@ -161,17 +161,17 @@ partial class Editor
         tool_text.Text = "Toolbox...";
         tool_text.TextAlign = ContentAlignment.MiddleCenter;
         // 
-        // Editor
+        // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(784, 461);
+        ClientSize = new Size(1264, 681);
         Controls.Add(tool_border);
         Controls.Add(info_border);
         Controls.Add(grid_border);
         Icon = (Icon)resources.GetObject("$this.Icon");
-        MinimumSize = new Size(800, 500);
-        Name = "Editor";
+        MinimumSize = new Size(1280, 720);
+        Name = "MainForm";
         Text = "Blasphemous Level Editor";
         grid_border.ResumeLayout(false);
         grid_section.ResumeLayout(false);

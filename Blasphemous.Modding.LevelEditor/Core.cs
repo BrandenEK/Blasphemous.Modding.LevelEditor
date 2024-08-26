@@ -10,7 +10,7 @@ internal static class Core
     {
         ApplicationConfiguration.Initialize();
 
-        Editor = new Editor();
+        Editor = new MainForm();
         Grid = Editor.CreateGridWindow();
         Info = Editor.CreateInfoWindow();
         Tool = Editor.CreateToolWindow();
@@ -18,7 +18,7 @@ internal static class Core
         Application.Run(Editor);
     }
 
-    public static Editor Editor { get; private set; }
+    public static MainForm Editor { get; private set; }
     public static WindowGrid Grid { get; private set; }
     public static WindowInfo Info { get; private set; }
     public static WindowTool Tool { get; private set; }

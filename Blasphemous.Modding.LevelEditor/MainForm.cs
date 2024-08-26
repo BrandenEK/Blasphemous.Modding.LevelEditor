@@ -8,13 +8,13 @@ using System.Windows.Forms;
 
 namespace Blasphemous.Modding.LevelEditor;
 
-public partial class Editor : Form
+public partial class MainForm : Form
 {
     public const int PIXELS_PER_UNIT = 32;
 
     public const string SCENE = "D04Z01S01";
 
-    public Editor()
+    public MainForm()
     {
         InitializeComponent();
         WindowState = FormWindowState.Maximized;
