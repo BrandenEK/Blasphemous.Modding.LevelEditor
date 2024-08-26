@@ -1,5 +1,4 @@
-﻿using Blasphemous.Modding.LevelEditor.UI;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Blasphemous.Modding.LevelEditor;
@@ -20,52 +19,36 @@ partial class MainForm
     private void InitializeComponent()
     {
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-        grid_border = new ScaleablePanel();
-        grid_section = new BorderedPanel();
-        grid_contents = new Panel();
+        _grid = new Panel();
+        _grid_contents = new Panel();
         _info = new Panel();
         _info_loadBtn = new Button();
         _info_centerBtn = new Button();
         _info_text = new Label();
-        tool_border = new ScaleablePanel();
-        tool_section = new BorderedPanel();
-        tool_text = new Label();
-        grid_border.SuspendLayout();
-        grid_section.SuspendLayout();
+        _tool = new Panel();
+        _tool_text = new Label();
+        _grid.SuspendLayout();
         _info.SuspendLayout();
-        tool_border.SuspendLayout();
-        tool_section.SuspendLayout();
+        _tool.SuspendLayout();
         SuspendLayout();
         // 
-        // grid_border
+        // _grid
         // 
-        grid_border.BackColor = Color.Black;
-        grid_border.Controls.Add(grid_section);
-        grid_border.Location = new Point(0, 0);
-        grid_border.Name = "grid_border";
-        grid_border.Size = new Size(640, 360);
-        grid_border.TabIndex = 3;
-        grid_border.XOffset = new Point(-3, 0);
-        grid_border.XRange = new Point(0, 80);
-        grid_border.YOffset = new Point(0, 0);
-        grid_border.YRange = new Point(0, 70);
+        _grid.BackColor = Color.DarkGray;
+        _grid.Controls.Add(_grid_contents);
+        _grid.Dock = DockStyle.Fill;
+        _grid.Location = new Point(0, 0);
+        _grid.Name = "_grid";
+        _grid.Size = new Size(964, 481);
+        _grid.TabIndex = 0;
         // 
-        // grid_section
+        // _grid_contents
         // 
-        grid_section.BackColor = Color.DarkGray;
-        grid_section.Controls.Add(grid_contents);
-        grid_section.Location = new Point(0, 0);
-        grid_section.Name = "grid_section";
-        grid_section.Size = new Size(640, 360);
-        grid_section.TabIndex = 0;
-        // 
-        // grid_contents
-        // 
-        grid_contents.BackColor = Color.SteelBlue;
-        grid_contents.Location = new Point(0, 0);
-        grid_contents.Name = "grid_contents";
-        grid_contents.Size = new Size(50000, 50000);
-        grid_contents.TabIndex = 1;
+        _grid_contents.BackColor = Color.SteelBlue;
+        _grid_contents.Location = new Point(0, 0);
+        _grid_contents.Name = "_grid_contents";
+        _grid_contents.Size = new Size(50000, 50000);
+        _grid_contents.TabIndex = 1;
         // 
         // _info
         // 
@@ -114,68 +97,54 @@ partial class MainForm
         _info_text.Text = "Info...";
         _info_text.TextAlign = ContentAlignment.MiddleCenter;
         // 
-        // tool_border
+        // _tool
         // 
-        tool_border.BackColor = Color.Black;
-        tool_border.Controls.Add(tool_section);
-        tool_border.Location = new Point(0, 360);
-        tool_border.Name = "tool_border";
-        tool_border.Size = new Size(640, 140);
-        tool_border.TabIndex = 5;
-        tool_border.XOffset = new Point(-3, 0);
-        tool_border.XRange = new Point(0, 80);
-        tool_border.YOffset = new Point(-2, 3);
-        tool_border.YRange = new Point(70, 100);
+        _tool.BackColor = Color.Silver;
+        _tool.BorderStyle = BorderStyle.Fixed3D;
+        _tool.Controls.Add(_tool_text);
+        _tool.Dock = DockStyle.Bottom;
+        _tool.Location = new Point(0, 481);
+        _tool.Name = "_tool";
+        _tool.Size = new Size(964, 200);
+        _tool.TabIndex = 0;
         // 
-        // tool_section
+        // _tool_text
         // 
-        tool_section.BackColor = Color.Gainsboro;
-        tool_section.Controls.Add(tool_text);
-        tool_section.Location = new Point(0, 0);
-        tool_section.Name = "tool_section";
-        tool_section.Size = new Size(640, 101);
-        tool_section.TabIndex = 0;
-        // 
-        // tool_text
-        // 
-        tool_text.Dock = DockStyle.Fill;
-        tool_text.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-        tool_text.ForeColor = Color.DimGray;
-        tool_text.Location = new Point(0, 0);
-        tool_text.Name = "tool_text";
-        tool_text.Size = new Size(640, 101);
-        tool_text.TabIndex = 0;
-        tool_text.Text = "Toolbox...";
-        tool_text.TextAlign = ContentAlignment.MiddleCenter;
+        _tool_text.Dock = DockStyle.Fill;
+        _tool_text.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+        _tool_text.ForeColor = Color.DimGray;
+        _tool_text.Location = new Point(0, 0);
+        _tool_text.Name = "_tool_text";
+        _tool_text.Size = new Size(960, 196);
+        _tool_text.TabIndex = 0;
+        _tool_text.Text = "Toolbox...";
+        _tool_text.TextAlign = ContentAlignment.MiddleCenter;
         // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1264, 681);
+        Controls.Add(_grid);
+        Controls.Add(_tool);
         Controls.Add(_info);
-        Controls.Add(tool_border);
-        Controls.Add(grid_border);
         Icon = (Icon)resources.GetObject("$this.Icon");
         MinimumSize = new Size(1280, 720);
         Name = "MainForm";
         Text = "Blasphemous Level Editor";
-        grid_border.ResumeLayout(false);
-        grid_section.ResumeLayout(false);
+        _grid.ResumeLayout(false);
         _info.ResumeLayout(false);
-        tool_border.ResumeLayout(false);
-        tool_section.ResumeLayout(false);
+        _tool.ResumeLayout(false);
         ResumeLayout(false);
     }
 
-    private ScaleablePanel grid_border;
-    private BorderedPanel grid_section;
+    private Panel grid_border;
+    private Panel _grid;
     private Panel _info;
-    private ScaleablePanel tool_border;
-    private BorderedPanel tool_section;
-    private Panel grid_contents;
+    private Panel _tool;
+    private Panel _grid_contents;
     private Label _info_text;
-    private Label tool_text;
+    private Label _tool_text;
     private Button _info_centerBtn;
     private Button _info_loadBtn;
 }

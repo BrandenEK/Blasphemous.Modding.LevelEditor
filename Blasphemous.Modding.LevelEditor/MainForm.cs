@@ -24,7 +24,7 @@ public partial class MainForm : Form
 
     public WindowInfo CreateInfoWindow() => new(_info_text);
 
-    public WindowGrid CreateGridWindow() => new(grid_contents, _info_text);
+    public WindowGrid CreateGridWindow() => new(_grid_contents, _info_text);
 
     public WindowTool CreateToolWindow() => new();
 
