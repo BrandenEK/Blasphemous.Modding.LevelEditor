@@ -38,7 +38,7 @@ public class Sprite : Component
             Vector scale = Owner.Transform.Scale;
 
             // Get center and size in pixels
-            Vector pixelCenter = position * Editor.PIXELS_PER_UNIT;
+            Vector pixelCenter = position * MainForm.PIXELS_PER_UNIT;
             Vector pixelSize = new Vector(Image?.Width ?? 1, Image?.Height ?? 1, 0) * scale;
 
             // Calculate corner points
