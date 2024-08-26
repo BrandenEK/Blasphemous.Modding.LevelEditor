@@ -1,12 +1,8 @@
-﻿using Blasphemous.Modding.LevelEditor.Components;
+﻿using Basalt.Framework.Logging;
+using Blasphemous.Modding.LevelEditor.Components;
 using Blasphemous.Modding.LevelEditor.Framework;
 using Blasphemous.Modding.LevelEditor.UI;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Blasphemous.Modding.LevelEditor;
 
@@ -180,7 +176,7 @@ public class WindowGrid
 
         DateTime endTime = DateTime.Now;
 
-        Logger.Warning($"Redrawing grid in {(endTime - startTime).TotalMilliseconds} ms");
+        Logger.Warn($"Redrawing grid in {(endTime - startTime).TotalMilliseconds} ms");
     }
 
     private Vector CenterPoint
