@@ -1,11 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Nullable>enable</Nullable>
+    <AssemblyName>BlasLevelEditor</AssemblyName>
     <ApplicationIcon>App.ico</ApplicationIcon>
+
+    <Title>Blasphemous Level Editor</Title>
+    <Product>Blasphemous Level Editor</Product>
+    <Authors>Damocles</Authors>
+    <Company>Damocles</Company>
+    <Description>Easily analyze and modify level data for the game Blasphemous</Description>
+    <Version>0.1.0</Version>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +23,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Basalt.BetterForms" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <Target Name="Development" AfterTargets="PostBuildEvent">
+
+    <!-- Export & zip the release build -->
+    <ItemGroup>
+      <BuildFolder Include="$(OutDir)*" />
+    </ItemGroup>
+    <PropertyGroup>
+      <ExportFolder>$(SolutionDir)publish\$(TargetName)</ExportFolder>
+    </PropertyGroup>
+    <Copy SourceFiles="@(BuildFolder)" DestinationFolder="$(ExportFolder)" />
+    <ZipDirectory SourceDirectory="$(ExportFolder)" DestinationFile="$(ExportFolder)\..\$(TargetName).zip" Overwrite="true" />
+
+  </Target>
+  
 </Project>
