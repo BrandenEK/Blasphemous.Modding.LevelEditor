@@ -14,21 +14,25 @@ public partial class MainForm : BasaltForm
 
     protected override void OnFormOpenPre()
     {
-        _config = LoadSettings();
-        WindowState = _config.WindowMaximized ? FormWindowState.Maximized : FormWindowState.Normal;
-        Location = _config.WindowLocation;
-        Size = _config.WindowSize;
+        EditorConfig cfg = LoadSettings();
+        WindowState = cfg.Window.IsMaximized ? FormWindowState.Maximized : FormWindowState.Normal;
+        Location = cfg.Window.Location;
+        Size = cfg.Window.Size;
     }
 
     protected override void OnFormClose(FormClosingEventArgs e)
     {
-        _config.WindowLocation = WindowState == FormWindowState.Normal ? Location : RestoreBounds.Location;
-        _config.WindowSize = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size;
-        _config.WindowMaximized = WindowState == FormWindowState.Maximized;
-        SaveSettings(_config);
+        EditorConfig cfg = new()
+        {
+            Window = new EditorConfig.WindowState()
+            {
+                Location = WindowState == FormWindowState.Normal ? Location : RestoreBounds.Location,
+                Size = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size,
+                IsMaximized = WindowState == FormWindowState.Maximized
+            }
+        };
+        SaveSettings(cfg);
     }
-
-    private EditorConfig _config = new();
 
     // Windows
 
@@ -50,7 +54,9 @@ public partial class MainForm : BasaltForm
         Core.Grid.LoadLevel(objects);
     }
 
-    public void SaveSettings(EditorConfig cfg)
+    // Config
+
+    private static void SaveSettings(EditorConfig cfg)
     {
         JsonSerializerSettings settings = new()
         {
@@ -62,7 +68,7 @@ public partial class MainForm : BasaltForm
         File.WriteAllText(Path.Combine(Core.EditorFolder, "Settings.cfg"), json);
     }
 
-    public EditorConfig LoadSettings()
+    private static EditorConfig LoadSettings()
     {
         string path = Path.Combine(Core.EditorFolder, "Settings.cfg");
 

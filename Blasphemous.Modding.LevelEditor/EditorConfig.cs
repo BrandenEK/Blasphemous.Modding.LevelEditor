@@ -3,7 +3,12 @@ namespace Blasphemous.Modding.LevelEditor;
 
 public class EditorConfig
 {
-    public Point WindowLocation { get; set; }
-    public Size WindowSize { get; set; }
-    public bool WindowMaximized { get; set; } = true;
+    public WindowState Window { get; set; } = new();
+
+    public class WindowState
+    {
+        public Point Location { get; set; }
+        public Size Size { get; set; }
+        public bool IsMaximized { get; set; } = true;
+    }
 }
