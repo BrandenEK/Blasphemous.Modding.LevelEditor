@@ -23,18 +23,16 @@ partial class MainForm
         grid_border = new ScaleablePanel();
         grid_section = new BorderedPanel();
         grid_contents = new Panel();
-        info_border = new ScaleablePanel();
-        info_section = new BorderedPanel();
-        info_load_btn = new Button();
-        info_center_btn = new Button();
-        info_text = new Label();
+        _info = new Panel();
+        _info_loadBtn = new Button();
+        _info_centerBtn = new Button();
+        _info_text = new Label();
         tool_border = new ScaleablePanel();
         tool_section = new BorderedPanel();
         tool_text = new Label();
         grid_border.SuspendLayout();
         grid_section.SuspendLayout();
-        info_border.SuspendLayout();
-        info_section.SuspendLayout();
+        _info.SuspendLayout();
         tool_border.SuspendLayout();
         tool_section.SuspendLayout();
         SuspendLayout();
@@ -69,63 +67,52 @@ partial class MainForm
         grid_contents.Size = new Size(50000, 50000);
         grid_contents.TabIndex = 1;
         // 
-        // info_border
+        // _info
         // 
-        info_border.BackColor = Color.Black;
-        info_border.Controls.Add(info_section);
-        info_border.Location = new Point(640, 0);
-        info_border.Name = "info_border";
-        info_border.Size = new Size(160, 500);
-        info_border.TabIndex = 4;
-        info_border.XOffset = new Point(-2, 3);
-        info_border.XRange = new Point(80, 100);
-        info_border.YOffset = new Point(0, 3);
-        info_border.YRange = new Point(0, 100);
+        _info.BackColor = Color.LightGray;
+        _info.BorderStyle = BorderStyle.Fixed3D;
+        _info.Controls.Add(_info_loadBtn);
+        _info.Controls.Add(_info_centerBtn);
+        _info.Controls.Add(_info_text);
+        _info.Dock = DockStyle.Right;
+        _info.Location = new Point(964, 0);
+        _info.Name = "_info";
+        _info.Size = new Size(300, 681);
+        _info.TabIndex = 0;
         // 
-        // info_section
+        // _info_loadBtn
         // 
-        info_section.BackColor = Color.LightGray;
-        info_section.Controls.Add(info_load_btn);
-        info_section.Controls.Add(info_center_btn);
-        info_section.Controls.Add(info_text);
-        info_section.Location = new Point(0, 0);
-        info_section.Name = "info_section";
-        info_section.Size = new Size(160, 500);
-        info_section.TabIndex = 0;
+        _info_loadBtn.Anchor = AnchorStyles.Bottom;
+        _info_loadBtn.Location = new Point(68, 508);
+        _info_loadBtn.Name = "_info_loadBtn";
+        _info_loadBtn.Size = new Size(75, 23);
+        _info_loadBtn.TabIndex = 2;
+        _info_loadBtn.Text = "Load";
+        _info_loadBtn.UseVisualStyleBackColor = true;
+        _info_loadBtn.Click += OnClickLoad;
         // 
-        // info_load_btn
+        // _info_centerBtn
         // 
-        info_load_btn.Anchor = AnchorStyles.Bottom;
-        info_load_btn.Location = new Point(0, 331);
-        info_load_btn.Name = "info_load_btn";
-        info_load_btn.Size = new Size(75, 23);
-        info_load_btn.TabIndex = 2;
-        info_load_btn.Text = "Load";
-        info_load_btn.UseVisualStyleBackColor = true;
-        info_load_btn.Click += OnClickLoad;
+        _info_centerBtn.Anchor = AnchorStyles.Bottom;
+        _info_centerBtn.Location = new Point(150, 508);
+        _info_centerBtn.Name = "_info_centerBtn";
+        _info_centerBtn.Size = new Size(75, 23);
+        _info_centerBtn.TabIndex = 1;
+        _info_centerBtn.Text = "Center";
+        _info_centerBtn.UseVisualStyleBackColor = true;
+        _info_centerBtn.Click += OnClickCenter;
         // 
-        // info_center_btn
+        // _info_text
         // 
-        info_center_btn.Anchor = AnchorStyles.Bottom;
-        info_center_btn.Location = new Point(82, 331);
-        info_center_btn.Name = "info_center_btn";
-        info_center_btn.Size = new Size(75, 23);
-        info_center_btn.TabIndex = 1;
-        info_center_btn.Text = "Center";
-        info_center_btn.UseVisualStyleBackColor = true;
-        info_center_btn.Click += OnClickCenter;
-        // 
-        // info_text
-        // 
-        info_text.Anchor = AnchorStyles.Bottom;
-        info_text.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-        info_text.ForeColor = Color.DimGray;
-        info_text.Location = new Point(-75, 380);
-        info_text.Name = "info_text";
-        info_text.Size = new Size(300, 120);
-        info_text.TabIndex = 0;
-        info_text.Text = "Info...";
-        info_text.TextAlign = ContentAlignment.MiddleCenter;
+        _info_text.Dock = DockStyle.Bottom;
+        _info_text.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+        _info_text.ForeColor = Color.DimGray;
+        _info_text.Location = new Point(0, 557);
+        _info_text.Name = "_info_text";
+        _info_text.Size = new Size(296, 120);
+        _info_text.TabIndex = 0;
+        _info_text.Text = "Info...";
+        _info_text.TextAlign = ContentAlignment.MiddleCenter;
         // 
         // tool_border
         // 
@@ -166,8 +153,8 @@ partial class MainForm
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1264, 681);
+        Controls.Add(_info);
         Controls.Add(tool_border);
-        Controls.Add(info_border);
         Controls.Add(grid_border);
         Icon = (Icon)resources.GetObject("$this.Icon");
         MinimumSize = new Size(1280, 720);
@@ -175,8 +162,7 @@ partial class MainForm
         Text = "Blasphemous Level Editor";
         grid_border.ResumeLayout(false);
         grid_section.ResumeLayout(false);
-        info_border.ResumeLayout(false);
-        info_section.ResumeLayout(false);
+        _info.ResumeLayout(false);
         tool_border.ResumeLayout(false);
         tool_section.ResumeLayout(false);
         ResumeLayout(false);
@@ -184,13 +170,12 @@ partial class MainForm
 
     private ScaleablePanel grid_border;
     private BorderedPanel grid_section;
-    private ScaleablePanel info_border;
-    private BorderedPanel info_section;
+    private Panel _info;
     private ScaleablePanel tool_border;
     private BorderedPanel tool_section;
     private Panel grid_contents;
-    private Label info_text;
+    private Label _info_text;
     private Label tool_text;
-    private Button info_center_btn;
-    private Button info_load_btn;
+    private Button _info_centerBtn;
+    private Button _info_loadBtn;
 }

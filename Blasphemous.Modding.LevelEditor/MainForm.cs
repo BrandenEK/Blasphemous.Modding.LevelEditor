@@ -22,9 +22,9 @@ public partial class MainForm : Form
 
     // Windows
 
-    public WindowInfo CreateInfoWindow() => new(info_text);
+    public WindowInfo CreateInfoWindow() => new(_info_text);
 
-    public WindowGrid CreateGridWindow() => new(grid_contents, info_text);
+    public WindowGrid CreateGridWindow() => new(grid_contents, _info_text);
 
     public WindowTool CreateToolWindow() => new();
 
