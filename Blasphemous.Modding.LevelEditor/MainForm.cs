@@ -1,19 +1,16 @@
+using Basalt.BetterForms;
 using Blasphemous.Modding.LevelEditor.Components;
 using Blasphemous.Modding.LevelEditor.Import;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Blasphemous.Modding.LevelEditor;
 
-public partial class MainForm : Form
+public partial class MainForm : BasaltForm
 {
     public const int PIXELS_PER_UNIT = 32;
     public const string SCENE = "D04Z01S01";
 
-    public MainForm()
+    protected override void OnFormOpenPre()
     {
-        InitializeComponent();
         WindowState = FormWindowState.Maximized;
     }
 

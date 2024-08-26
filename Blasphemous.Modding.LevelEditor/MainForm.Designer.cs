@@ -131,7 +131,6 @@ partial class MainForm
         Icon = (Icon)resources.GetObject("$this.Icon");
         MinimumSize = new Size(1280, 720);
         Name = "MainForm";
-        Text = "Blasphemous Level Editor";
         _grid.ResumeLayout(false);
         _info.ResumeLayout(false);
         _tool.ResumeLayout(false);
